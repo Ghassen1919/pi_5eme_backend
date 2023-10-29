@@ -5,8 +5,7 @@ import lombok.experimental.FieldDefaults;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
-import java.io.Serializable;
-import java.util.List;
+
 
 @Entity
 @Getter
