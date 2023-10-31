@@ -168,7 +168,7 @@ public class ClaimRestController {
 
     //------------------{ envoi de mail en cas de retard de traitement (automatique) }------------------
 // check the claims that are not processed yet
-    @Scheduled(cron = "0 25 20 * * *") // Run every day at 9:00 AM
+    @Scheduled(cron = "0 15 17 * * *") // Run every day at 9:00 AM
 
     public  void compare () {
 
@@ -245,22 +245,25 @@ public class ClaimRestController {
 
         float count1=0;
         float count2=0;
+float count3=0;
+        for (Claim claim : myObjects) {
 
-        for (Claim claim : myObjects){
+            if (claim.getType() == TypeClaim.Transaction) {
+                count1 = count1 + 1;
 
-             if (claim.getType()==TypeClaim.Transaction) {
-                count1=count1+1;
+            } else if (claim.getType() == TypeClaim.Account) {
+                count2 = count2 + 1;
+            } else {
+                count3 = count3 + 1;
+            }
+        }
+            float result1 = (float) count1 / b;
+            float result2 = (float) count2 / b;
+            float result3 = (float) count3 / b;
 
-            }else {count2=count2+1;}
+            return " le pourcentage des reclamation de type Transaction est " + String.valueOf(result1 * 100) + "% / le pourcentage des reclamation de type Account est " + String.valueOf(result2 * 100) + "%/ le pourcentage des reclamation de type Other est " + String.valueOf(result3 * 100) + "%";
 
         }
-
-        float result1 = (float) count1 / b;
-        float result2 = (float) count2 / b;
-
-        return " le pourcentage des reclamation de type Transaction est "+String.valueOf(result1*100)+"% / le pourcentage des reclamation de type Account est "+String.valueOf(result2*100)+"%";
-
-    }
     @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/nbclaim3")
     public Map<String, Float> getPourcentage() {
@@ -269,24 +272,26 @@ public class ClaimRestController {
 
         float count1 = 0;
         float count2 = 0;
-
+        float count3=0;
         for (Claim claim : myObjects) {
              if (claim.getType() == TypeClaim.Transaction) {
                 count1 = count1 + 1;
-            } else {
-                count2 = count2 + 1;
-            }
+            } else if (claim.getType() == TypeClaim.Account) {
+                 count2 = count2 + 1;
+             } else {
+                 count3 = count3 + 1;
+             }
         }
 
 
         float result1 = count1 / b;
         float result2 = count2 / b;
-
+        float result3 = (float) count3 / b;
         Map<String, Float> percentages = new HashMap<>();
 
         percentages.put("transaction", result1);
         percentages.put("account", result2);
-
+        percentages.put("other", result3);
         return percentages;
     }
     @GetMapping("/listtran")
