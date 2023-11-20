@@ -21,10 +21,11 @@ public class Transaction implements Serializable
     Integer idTransaction;
     @Temporal(TemporalType.DATE)
     Date dateTransaction;
-    Float montant;
+    String actif;
     Float quantite;
     String RefTransaction;
-
+    @Enumerated(EnumType.STRING)
+    TypeTransaction type;
 
 
     @ManyToOne(cascade=CascadeType.ALL)

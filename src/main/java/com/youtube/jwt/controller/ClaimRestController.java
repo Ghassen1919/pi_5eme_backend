@@ -11,7 +11,9 @@ import com.youtube.jwt.entity.Transaction;
 import com.youtube.jwt.entity.TypeClaim;
 import com.youtube.jwt.service.ClaimService;
 import com.youtube.jwt.service.EmailService;
+import com.youtube.jwt.service.RoleService;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -37,7 +39,6 @@ public class ClaimRestController {
     private ClaimService claimService;
 
     private EmailService emailService;
-
 
 
     //------------------{ Affichage }------------------
