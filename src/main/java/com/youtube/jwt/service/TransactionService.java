@@ -1,5 +1,6 @@
 package com.youtube.jwt.service;
 
+import com.youtube.jwt.dao.TransactionRepository;
 import com.youtube.jwt.dao.TransatioRepo;
 import com.youtube.jwt.dao.UserDao;
 import com.youtube.jwt.entity.Transaction;
@@ -13,27 +14,29 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
 public class TransactionService implements ItransactionService {
-    private TransatioRepo transationRepo;
+    @Autowired
+    private TransactionRepository transactionRepository;
 
-    private UserDao userDao;
-    @Override
-    public void Sell(Transaction transaction) {
-        transaction.setType(TypeTransaction.Sell);
-        Calendar cal = Calendar.getInstance();
-        Date dateclaim = cal.getTime();
-        transaction.setDateTransaction(dateclaim);
-
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            String currentUserName = authentication.getName();
-            User user = userDao.findByUserName(currentUserName);
-            transaction.setUserc(user);
-            transationRepo.save(transaction);
-
+    public List<Transaction> getAllTransactions() {
+        return transactionRepository.findAll();
     }
-    @Override
-    public List<Transaction> selectAll() {
-        return transationRepo.findAll();
+
+    public Transaction getTransactionById(Integer id) {
+        return transactionRepository.findById(id).orElse(null);
+    }
+
+    public Transaction saveTransaction(Transaction transaction) {
+        return transactionRepository.save(transaction);
+    }
+
+    public void deleteTransaction(Integer id) {
+        transactionRepository.deleteById(id);
     }
 }
