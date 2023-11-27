@@ -71,13 +71,13 @@ public class OrdreService implements IOrdreService {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
 
         // Find the portefeuille of the connected user
-        Optional<Portefeuille> portefeuilleOptional = portefeuilleRepository.findByUserUsername(username);
+        Optional<Portefeuille> portefeuilleOptional = portefeuilleRepository.findByUserUserName(username);
 
         if (portefeuilleOptional.isPresent()) {
             Portefeuille portefeuille = portefeuilleOptional.get();
 
             // Find the instrument by symbol
-            Optional<Instrument> instrumentOptional = instrumentRepository.findBySymboleAndPortefeuilleUserUsername(symbol, username);
+            Optional<Instrument> instrumentOptional = instrumentRepository.findBySymboleAndPortefeuilleUserUserName(symbol, username);
 
             if (instrumentOptional.isPresent()) {
                 Instrument instrument = instrumentOptional.get();
@@ -115,16 +115,16 @@ public class OrdreService implements IOrdreService {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
 
         // Find the portefeuille of the connected user
-        Optional<Portefeuille> portefeuilleOptional1 = portefeuilleRepository.findByUserUsername(username);
-        Optional<Portefeuille> portefeuilleOptional2 = portefeuilleRepository.findByUserUsername(ordre.getUser().getUserName());
+        Optional<Portefeuille> portefeuilleOptional1 = portefeuilleRepository.findByUserUserName(username);
+        Optional<Portefeuille> portefeuilleOptional2 = portefeuilleRepository.findByUserUserName(ordre.getUser().getUserName());
         if ((portefeuilleOptional1.isPresent())&&(portefeuilleOptional2.isPresent())) {
             Portefeuille portefeuille1 = portefeuilleOptional1.get();
             Portefeuille portefeuille2 = portefeuilleOptional1.get();
             // Check if the user has sufficient funds
             float totalCost = ordre.getQuantite() * ordre.getPrixLimite();
             if (portefeuille1.getSolde() >= totalCost) {
-                Optional<Instrument> instrumentOptional1 = instrumentRepository.findBySymboleAndPortefeuilleUserUsername(ordre.getInstrument().getSymbole(), username);
-                Optional<Instrument> instrumentOptional2 = instrumentRepository.findBySymboleAndPortefeuilleUserUsername(ordre.getInstrument().getSymbole(), ordre.getUser().getUserName());
+                Optional<Instrument> instrumentOptional1 = instrumentRepository.findBySymboleAndPortefeuilleUserUserName(ordre.getInstrument().getSymbole(), username);
+                Optional<Instrument> instrumentOptional2 = instrumentRepository.findBySymboleAndPortefeuilleUserUserName(ordre.getInstrument().getSymbole(), ordre.getUser().getUserName());
                 if ((instrumentOptional1.isPresent())&&(instrumentOptional2.isPresent())) {
                     Instrument instrument1 = instrumentOptional1.get();
                     Instrument instrument2 = instrumentOptional2.get();
