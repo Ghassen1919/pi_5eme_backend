@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface TransatioRepo {
 
+    List<Transaction> findByUserc(User user);
 }
