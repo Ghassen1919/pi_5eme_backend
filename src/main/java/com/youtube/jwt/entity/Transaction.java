@@ -6,6 +6,8 @@ import lombok.experimental.FieldDefaults;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
@@ -21,15 +23,16 @@ public class Transaction implements Serializable
     Integer idTransaction;
     @Temporal(TemporalType.DATE)
     Date dateTransaction;
-    String actif;
-    Float quantite;
+    Float montant;
+
     String RefTransaction;
-    @Enumerated(EnumType.STRING)
-    TypeTransaction type;
+
+    String buyer;
+    String seller;
 
 
-    @ManyToOne(cascade=CascadeType.ALL)
-    private User userc;
+
 
 
 }
+
