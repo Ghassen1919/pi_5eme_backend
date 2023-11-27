@@ -3,18 +3,23 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.*;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api")
@@ -51,6 +56,12 @@ public class ScrapingController {
             return ResponseEntity.status(responseEntity.getStatusCode()).build();
         }
     }
+    @GetMapping("/convertUSDToTND")
+    public ResponseEntity<BigDecimal>convertUSDTodinar(@RequestParam double amount) {
+
+        return  convertUSDToTND(amount);
+    }
+
 
 
 
@@ -77,7 +88,8 @@ public class ScrapingController {
                     Elements rows = table.select("tbody tr");
 
                     // Iterate through the rows and extract data
-                    for (Element row : rows) {
+                    for (int i = 0; i < Math.min(rows.size(), 2); i++) {
+                        Element row = rows.get(i);
                         Elements columns = row.select("td");
 
                         // Extract data from each column
@@ -88,7 +100,10 @@ public class ScrapingController {
                         String column5 = columns.get(4).text();
                         String column6 = columns.get(5).text();
                         String column7 = columns.get(6).text();
-
+                        String numericValue = column2.replaceAll("[^0-9.,]", "").replace(",", ".");
+                        float a =Float.parseFloat(numericValue);
+                        ResponseEntity<BigDecimal> convertedAmount = convertUSDToTND(a);                        // Add more columns as needed
+                        String column8 = convertedAmount.getBody().setScale(4, BigDecimal.ROUND_HALF_EVEN) + " TND";
                         // Create a map to represent a row of data
                         Map<String, Object> rowData = new HashMap<>();
                         rowData.put("column1", column1);
@@ -98,7 +113,7 @@ public class ScrapingController {
                         rowData.put("column5", column5);
                         rowData.put("column6", column6);
                         rowData.put("column7", column7);
-
+                        rowData.put("column8", column8);
 
 
 
@@ -109,6 +124,7 @@ public class ScrapingController {
                         // Add the row data to the list
                         tableData.add(rowData);
                     }
+
                 }
 
                 // Return the scraped data in the response
@@ -149,7 +165,8 @@ public class ScrapingController {
                     Elements rows = table.select("tbody tr");
 
                     // Iterate through the rows and extract data
-                    for (Element row : rows) {
+                    for (int i = 0; i < Math.min(rows.size(), 21); i++) {
+                        Element row = rows.get(i);
                         Elements columns = row.select("td");
 
                         // Extract data from each column
@@ -160,7 +177,13 @@ public class ScrapingController {
                         String column5 = columns.get(4).text();
                         String column6 = columns.get(5).text();
                         String column7 = columns.get(6).text();
-
+                        String[] parts = column2.split("\\s+");
+                        String currencyCode = parts[parts.length - 1];
+                        if("USD".equals(currencyCode)){
+                        String numericValue = column2.replaceAll("[^0-9.,]", "").replace(",", ".");
+                        float a =Float.parseFloat(numericValue);
+                        ResponseEntity<BigDecimal> convertedAmount = convertUSDToTND(a);                        // Add more columns as needed
+                        String column8 = convertedAmount.getBody().setScale(4, BigDecimal.ROUND_HALF_EVEN) + " TND";
 
                         // Add more columns as needed
 
@@ -173,7 +196,7 @@ public class ScrapingController {
                         rowData.put("column5", column5);
                         rowData.put("column6", column6);
                         rowData.put("column7", column7);
-
+                        rowData.put("column8", column8);
 
 
 
@@ -183,6 +206,7 @@ public class ScrapingController {
                         // Add the row data to the list
                         tableData.add(rowData);
                     }
+                                       }
                 }
 
                 // Return the scraped data in the response
@@ -200,6 +224,10 @@ public class ScrapingController {
         }
 
     }
+
+
+
+
     @GetMapping("/table2-data")
     public ResponseEntity<List<Map<String, Object>>> getTableData2() {
         try {
@@ -287,7 +315,7 @@ public class ScrapingController {
                 Elements rows = table.select("tbody tr");
 
                 // Iterate through the rows and extract data for the first 10 rows
-                for (int i = 0; i < Math.min(rows.size(), 20); i++) {
+                for (int i = 0; i < Math.min(rows.size(), 18); i++) {
                     Element row = rows.get(i);
                     Elements columns = row.select("td");
 
@@ -298,7 +326,13 @@ public class ScrapingController {
                     String column3 = columns.get(3).text();
                     String column4 = columns.get(4).text();
                     String column5 = columns.get(5).text();
-
+                    String[] parts = column2.split("\\s+");
+                    String currencyCode = parts[parts.length - 1];
+                    if("USD".equals(currencyCode)){
+                    String numericValue = column2.replaceAll("[^0-9.,]", "").replace(",", ".");
+                    float a =Float.parseFloat(numericValue);
+                    ResponseEntity<BigDecimal> convertedAmount = convertUSDToTND(a);                        // Add more columns as needed
+                    String column8 = convertedAmount.getBody().setScale(4, BigDecimal.ROUND_HALF_EVEN) + " TND";
 
                     // Add more columns as needed
 
@@ -310,13 +344,13 @@ public class ScrapingController {
                     rowData.put("column3", column3);
                     rowData.put("column4", column4);
                     rowData.put("column5", column5);
-
+                    rowData.put("column8", column8);
 
                     // Add more columns as needed
 
                     // Add the row data to the list
-                    tableData.add(rowData);
-                }
+                    tableData.add(rowData);}
+             }
             }
 
             // Return the scraped data in the response
@@ -557,7 +591,7 @@ public class ScrapingController {
                 Elements rows = table.select("tbody tr");
 
                 // Iterate through the rows and extract data for the first 10 rows
-                for (int i = 0; i < Math.min(rows.size(), 45); i++) {
+                for (int i = 0; i < Math.min(rows.size(), 30); i++) {
                     Element row = rows.get(i);
                     Elements columns = row.select("td");
 
