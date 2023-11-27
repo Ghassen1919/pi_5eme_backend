@@ -24,5 +24,6 @@ public class Instrument {
 
     Float quantite;
 
-
+@ManyToOne
+    Portefeuille portefeuille;
 }

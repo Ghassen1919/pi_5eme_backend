@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
 public interface PortefeuilleRepository extends JpaRepository<Portefeuille,Integer> {
-    Optional<Portefeuille> findByUserUsername(String username);
+    Optional<Portefeuille> findByUserUserName(String username);
 }

@@ -2,15 +2,16 @@ package com.youtube.jwt.controller;
 
 import com.youtube.jwt.entity.Ordre;
 import com.youtube.jwt.service.IOrdreService;
-import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@AllArgsConstructor
 @RequestMapping("/ordres")
 public class OrdreController {
+
+    @Autowired
     private IOrdreService ordreService;
 
     @GetMapping
@@ -23,9 +24,14 @@ public class OrdreController {
         return ordreService.selectById(id);
     }
 
-    @PostMapping
-    public Ordre saveOrdre(@RequestBody Ordre ordre) {
-        return ordreService.add(ordre);
+    @PostMapping("/sell")
+    public void sellInstrument(@RequestBody Ordre ordre) {
+        ordreService.sellInstrument(ordre.getQuantite(), ordre.getPrixLimite(), ordre.getInstrument().getSymbole());
+    }
+
+    @PostMapping("/buy")
+    public void buyInstrument(@RequestBody Ordre ordre) {
+        ordreService.buyInstrument(ordre);
     }
 
     @DeleteMapping("/{id}")

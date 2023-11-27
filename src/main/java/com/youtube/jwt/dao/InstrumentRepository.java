@@ -8,5 +8,5 @@ import java.util.Optional;
 
 public interface InstrumentRepository extends JpaRepository<Instrument,Integer> {
 
-    Optional<Instrument> findBySymboleAndPortefeuilleUserUsername(String symbol, String username);
+    Optional<Instrument> findBySymboleAndPortefeuilleUserUserName(String symbol, String userName);
 }
