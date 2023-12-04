@@ -1,6 +1,8 @@
 package com.youtube.jwt.controller;
 
+import com.youtube.jwt.dao.OrdreRepository;
 import com.youtube.jwt.entity.Ordre;
+import com.youtube.jwt.entity.TypeOrdre;
 import com.youtube.jwt.service.IOrdreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +15,8 @@ public class OrdreController {
 
     @Autowired
     private IOrdreService ordreService;
+
+    private OrdreRepository ordreRepository;
 
     @GetMapping
     public List<Ordre> getAllOrdres() {
@@ -38,4 +42,9 @@ public class OrdreController {
     public void deleteOrdre(@PathVariable Integer id) {
         ordreService.deleteById(id);
     }
-}
+
+    @GetMapping("/listbuy")
+            public List<Ordre> OrdreBuy() {
+        return ordreRepository.findAllByTypeOrdre(TypeOrdre.VENTE);
+
+    }}

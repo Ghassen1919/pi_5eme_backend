@@ -3,12 +3,16 @@ package com.youtube.jwt.entity;
 
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Set;
 
 @Entity
 @AllArgsConstructor
+@Setter
+@Getter
 public class User  {
 
     @Id
@@ -27,6 +31,8 @@ public class User  {
     private String userPassword;
     private boolean userActive;
     private  int count;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Portefeuille portefeuille;
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "USER_ROLE",
             joinColumns = {
