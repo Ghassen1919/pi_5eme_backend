@@ -131,23 +131,18 @@ public class ScrapingController {
         try {
             // Connect to the website and get the HTML document
             Document document = Jsoup.connect("https://www.zonebourse.com/bourse/matieres-premieres/").get();
-
             // Find the unique <h2> element that precedes the desired table
             Element uniqueH2 = document.selectFirst(".card-title:containsOwn(Toutes les Matières Premières)");
-
             // Check if the <h2> element is found
             if (uniqueH2 != null) {
                 // Navigate to the parent container of the <h2> element and find the associated table
                 Element table = uniqueH2.parent().nextElementSibling().selectFirst("table[class=table table--small table--bordered table--responsive]");
-
                 // Initialize a list to store the scraped data
                 List<Map<String, Object>> tableData = new ArrayList<>();
-
                 // Check if the table is found
                 if (table != null) {
                     // Select the table rows
                     Elements rows = table.select("tbody tr");
-
                     // Iterate through the rows and extract data
                     for (Element row : rows) {
                         Elements columns = row.select("td");
@@ -205,12 +200,6 @@ public class ScrapingController {
         try {
             // Connect to the website and get the HTML document
             Document document = Jsoup.connect("https://www.zonebourse.com/bourse/cryptomonnaies/").get();
-
-            // Find the unique <h2> element that precedes the desired table;
-
-            // Check if the <h2> element is found
-
-            // Navigate to the parent container of the <h2> element and find the associated table
             Element table = document.selectFirst("table[class=stocks_table table table--small table--bordered table--hover table--fixed table--stock table--centered]");
 
             // Initialize a list to store the scraped data

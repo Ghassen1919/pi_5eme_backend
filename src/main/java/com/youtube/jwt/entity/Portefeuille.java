@@ -22,11 +22,10 @@ public class Portefeuille {
 
     float solde;
 
-    @OneToOne(cascade= CascadeType.ALL)
-    private User user;
     @OneToMany(cascade=CascadeType.ALL)
     private Set<Transaction> transaction;
-
+    @OneToOne(mappedBy = "portefeuille")
+    private User user;
     @OneToMany(cascade=CascadeType.ALL)
     private Set<Instrument> instrument;
 }

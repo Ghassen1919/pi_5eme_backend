@@ -3,12 +3,16 @@ package com.youtube.jwt.entity;
 
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Set;
 
 @Entity
 @AllArgsConstructor
+@Getter
+@Setter
 public class User  {
 
     @Id
@@ -22,6 +26,10 @@ public class User  {
     @Lob
     @Column(columnDefinition = "MEDIUMBLOB")
     String userPhoto;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private Portefeuille portefeuille;
+
     private String userFirstName;
     private String userLastName;
     private String userPassword;
