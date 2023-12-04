@@ -169,7 +169,7 @@ public class ClaimRestController {
 
     //------------------{ envoi de mail en cas de retard de traitement (automatique) }------------------
 // check the claims that are not processed yet
-    @Scheduled(cron = "0 15 17 * * *") // Run every day at 9:00 AM
+    @Scheduled(cron = "0 00 09 * * *") // Run every day at 9:00 AM
 
     public  void compare () {
 
