@@ -32,6 +32,11 @@ public class Transaction implements Serializable
 
 
 
+<<<<<<< Updated upstream
+=======
+    @OneToMany(cascade=CascadeType.ALL)
+    private List<User> userc;
+>>>>>>> Stashed changes
 
 
 }

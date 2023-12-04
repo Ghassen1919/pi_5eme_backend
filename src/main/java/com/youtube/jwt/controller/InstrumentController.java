@@ -1,7 +1,11 @@
 package com.youtube.jwt.controller;
 
 import com.youtube.jwt.entity.Instrument;
+<<<<<<< Updated upstream
 import com.youtube.jwt.service.IInstrumentService;
+=======
+import com.youtube.jwt.service.Interfaces.IInstrumentService;
+>>>>>>> Stashed changes
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +24,11 @@ public class InstrumentController {
 
     @GetMapping("/{id}")
     public Instrument getInstrumentById(@PathVariable Integer id) {
+<<<<<<< Updated upstream
         return instrumentService.selectById(id);
+=======
+        return instrumentService.selectBySymbol(id);
+>>>>>>> Stashed changes
     }
 
     @PostMapping
@@ -32,4 +40,8 @@ public class InstrumentController {
     public void deleteInstrument(@PathVariable Integer id) {
         instrumentService.deleteById(id);
     }
+<<<<<<< Updated upstream
 }
+=======
+}
+>>>>>>> Stashed changes

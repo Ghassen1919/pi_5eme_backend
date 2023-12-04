@@ -1,8 +1,12 @@
 package com.youtube.jwt.service;
 
 import com.youtube.jwt.dao.ClaimRepo;
+<<<<<<< Updated upstream
 import com.youtube.jwt.dao.TransactionRepository;
 import com.youtube.jwt.dao.TransatioRepo;
+=======
+import com.youtube.jwt.dao.TransactionRepo;
+>>>>>>> Stashed changes
 import com.youtube.jwt.dao.UserDao;
 import com.youtube.jwt.entity.Claim;
 
@@ -35,7 +39,11 @@ public class ClaimService implements IclaimService {
     @Autowired
 
     */
+<<<<<<< Updated upstream
     private TransactionRepository transactionRepository;
+=======
+    private TransactionRepo transationRepo;
+>>>>>>> Stashed changes
     private ClaimRepo claimRepo;
 
     /*private EmailService emailService;

@@ -1,7 +1,13 @@
 package com.youtube.jwt.controller;
 
+<<<<<<< Updated upstream
 import com.youtube.jwt.entity.Portefeuille;
 import com.youtube.jwt.service.IPortefeuilleService;
+=======
+
+import com.youtube.jwt.entity.Portefeuille;
+import com.youtube.jwt.service.Interfaces.IPortefeuilleService;
+>>>>>>> Stashed changes
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

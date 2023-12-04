@@ -1,10 +1,16 @@
 package com.youtube.jwt.service;
 
+<<<<<<< Updated upstream
 
 
 import com.youtube.jwt.dao.PortefeuilleRepository;
 import com.youtube.jwt.entity.Portefeuille;
 import com.youtube.jwt.service.IPortefeuilleService;
+=======
+import com.youtube.jwt.dao.PortefeuilleRepo;
+import com.youtube.jwt.entity.Portefeuille;
+import com.youtube.jwt.service.Interfaces.IPortefeuilleService;
+>>>>>>> Stashed changes
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +20,11 @@ import java.util.Optional;
 @Service
 public class PortefeuilleService implements IPortefeuilleService {
     @Autowired
+<<<<<<< Updated upstream
     private PortefeuilleRepository portefeuilleRepository;
+=======
+    private PortefeuilleRepo portefeuilleRepository;
+>>>>>>> Stashed changes
 
     @Override
     public Portefeuille add(Portefeuille portefeuille) {

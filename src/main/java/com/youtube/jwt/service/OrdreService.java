@@ -1,5 +1,6 @@
 package com.youtube.jwt.service;
 
+<<<<<<< Updated upstream
 import com.youtube.jwt.dao.InstrumentRepository;
 import com.youtube.jwt.dao.OrdreRepository;
 import com.youtube.jwt.dao.PortefeuilleRepository;
@@ -10,10 +11,19 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+=======
+import com.youtube.jwt.dao.OrdreRepo;
+import com.youtube.jwt.entity.Ordre;
+import com.youtube.jwt.service.Interfaces.IOrderService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+>>>>>>> Stashed changes
 import java.util.List;
 import java.util.Optional;
 
 @Service
+<<<<<<< Updated upstream
 public class OrdreService implements IOrdreService {
     @Autowired
     private OrdreRepository ordreRepository;
@@ -24,6 +34,11 @@ public class OrdreService implements IOrdreService {
     @Autowired
     private TransactionRepository transactionRepository;
 
+=======
+public class OrdreService implements IOrderService {
+    @Autowired
+    private OrdreRepo ordreRepository;
+>>>>>>> Stashed changes
 
     @Override
     public Ordre add(Ordre ordre) {
@@ -65,6 +80,7 @@ public class OrdreService implements IOrdreService {
         ordreRepository.deleteById(id);
     }
 
+<<<<<<< Updated upstream
     @Override
     public void sellInstrument(float quantite, float prix, String symbol) {
         // Get the username of the connected user
@@ -164,3 +180,8 @@ public class OrdreService implements IOrdreService {
     }
 
 }
+=======
+    // Implement your additional business logic or methods here
+    // Example: public List<Ordre> getOrdresByType(String type) { ... }
+}
+>>>>>>> Stashed changes
