@@ -1,5 +1,6 @@
 package com.youtube.jwt.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -37,6 +38,7 @@ public class Portefeuille implements Serializable {
     float solde;
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     @OneToMany(cascade=CascadeType.ALL)
     private Set<Transaction> transaction;
     @OneToOne(mappedBy = "portefeuille")
@@ -46,12 +48,27 @@ public class Portefeuille implements Serializable {
 }
 =======
     @OneToOne(cascade=CascadeType.ALL)
+=======
+    @OneToOne(mappedBy = "portefeuille")
+    @JsonIgnore
+>>>>>>> Stashed changes
     private User user;
+
+
     @OneToMany(cascade=CascadeType.ALL)
     private Set<Transaction> transaction;
 
     @OneToMany(cascade=CascadeType.ALL)
+<<<<<<< Updated upstream
     private  Set<Instrument> instrument;
 }
+
+>>>>>>> Stashed changes
+=======
+    private Set<Instrument> instrument;
+}
+
+
+
 
 >>>>>>> Stashed changes

@@ -11,8 +11,13 @@ import java.util.Set;
 
 @Entity
 @AllArgsConstructor
+<<<<<<< Updated upstream
 @Getter
 @Setter
+=======
+@Setter
+@Getter
+>>>>>>> Stashed changes
 public class User  {
 
     @Id
@@ -35,6 +40,8 @@ public class User  {
     private String userPassword;
     private boolean userActive;
     private  int count;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Portefeuille portefeuille;
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "USER_ROLE",
             joinColumns = {

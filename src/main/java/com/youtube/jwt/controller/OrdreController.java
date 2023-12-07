@@ -1,7 +1,12 @@
 package com.youtube.jwt.controller;
 
+import com.youtube.jwt.dao.OrdreRepository;
 import com.youtube.jwt.entity.Ordre;
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+import com.youtube.jwt.entity.TypeOrdre;
+>>>>>>> Stashed changes
 import com.youtube.jwt.service.IOrdreService;
 import org.springframework.beans.factory.annotation.Autowired;
 =======
@@ -26,9 +31,15 @@ public class OrdreController {
     private IOrderService ordreService;
 >>>>>>> Stashed changes
 
+    private OrdreRepository ordreRepository;
+
     @GetMapping
     public List<Ordre> getAllOrdres() {
         return ordreService.selectAll();
+    }
+    @GetMapping("/afficher")
+    public List<Ordre> getAllOrdresvente() {
+        return ordreService.selectbuy();
     }
 
     @GetMapping("/{id}")
@@ -56,8 +67,17 @@ public class OrdreController {
     public void deleteOrdre(@PathVariable Integer id) {
         ordreService.deleteById(id);
     }
+<<<<<<< Updated upstream
 }
 <<<<<<< Updated upstream
 =======
 
+>>>>>>> Stashed changes
+=======
+
+    @GetMapping("/listbuy")
+            public List<Ordre> OrdreBuy() {
+        return ordreRepository.findAllByTypeOrdre(TypeOrdre.VENTE);
+
+    }}
 >>>>>>> Stashed changes

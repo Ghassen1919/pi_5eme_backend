@@ -23,8 +23,8 @@ public interface IOrdreService {
 
 
     public void deleteById(int id) ;
-
- public void sellInstrument(float quantite,float prix,String symbol);
+    public List<Ordre> selectbuy();
+    public void sellInstrument(float quantite,float prix,String symbol);
 
     void buyInstrument(Ordre ordre);
 }

@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @CrossOrigin
-public class JwtController {
+public class
+JwtController {
 
     @Autowired
     private JwtService jwtService;

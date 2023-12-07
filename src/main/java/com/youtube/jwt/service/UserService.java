@@ -5,7 +5,6 @@ import com.youtube.jwt.dao.UserDao;
 import com.youtube.jwt.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,6 +16,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.multipart.MultipartFile;
 
+import org.springframework.transaction.annotation.Transactional;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -84,13 +84,55 @@ public class UserService {
 //        userDao.save(user);
    */ }
 
+
+
+
+
+    @Transactional // Add this annotation to ensure atomicity
     public User registerNewUser(User user) {
-        if(userDao.existsByEmail(user.getEmail())) {
-            throw new ResourceNotFoundException("User email  exists:");
+        if (userDao.existsByEmail(user.getEmail())) {
+            throw new ResourceNotFoundException("User email exists.");
         }
-        if(userDao.existsByUserName(user.getUserName())){
-            throw new InternalServerErrorException("Username exists:");
+        if (userDao.existsByUserName(user.getUserName())) {
+            throw new InternalServerErrorException("Username exists.");
+        } else {
+            Instrument instrument1 = Instrument.builder().name("Gold").symbole("OANDA:XAUUSD").quantite(10.0F).build();
+            Instrument instrument2 = Instrument.builder().name("Apple Inc.").symbole("NASDAQ:AAPL").quantite(10.0F).build();
+            Instrument instrument3 = Instrument.builder().name("Bitcoin").symbole("BTCUSD").quantite(10.0F).build();
+            Instrument instrument4 = Instrument.builder().name("Ethereum").symbole("BINANCE:ETHUSDT").quantite(10.0F).build();
+            Instrument instrument5 = Instrument.builder().name("Microsoft Corporation").symbole("NASDAQ:MSFT").quantite(10.0F).build();
+            Instrument instrument6 = Instrument.builder().name("Crude Oil").symbole("TVC:USOIL").quantite(10.0F).build();
+
+
+            // Create a set of instruments
+            Set<Instrument> instruments = new HashSet<>();
+            instruments.add(instrument1);
+            instruments.add(instrument2);
+            instruments.add(instrument3);
+            instruments.add(instrument4);
+            instruments.add(instrument5);
+            instruments.add(instrument6);
+
+            // Create a Portefeuille with a solde of 10000 and the set of instruments
+            Portefeuille portefeuille = Portefeuille.builder().solde(10000.0F).instrument(instruments).build();
+
+            user.setPortefeuille(portefeuille);
+
+            // Create a new Role (if needed)
+            Role role = roleDao.findById("User").orElseThrow(() -> new ResourceNotFoundException("Role not found."));
+
+            // Set the user's roles
+            Set<Role> userRoles = new HashSet<>();
+            userRoles.add(role);
+            user.setRole(userRoles);
+
+            // Set other properties of the User
+            user.setUserActive(true);
+            user.setUserPassword(getEncodedPassword(user.getUserPassword()));
+            // Save the User, which will also save the associated Portefeuille due to CascadeType.ALL
+            return userDao.save(user);
         }
+<<<<<<< Updated upstream
         else{
         Role role = roleDao.findById("User").get();
         Set<Role> userRoles = new HashSet<>();
@@ -105,6 +147,8 @@ public class UserService {
 
         return userDao.save(user);
     }
+=======
+>>>>>>> Stashed changes
     }
 
     public String getEncodedPassword(String password) {

@@ -35,14 +35,18 @@ public class Ordre implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="idOrdre")
     Integer idOrdre;
-
+    @Enumerated(EnumType.STRING)
     TypeOrdre typeOrdre;
 
     float Quantite ;
 
     float prixLimite;
+<<<<<<< Updated upstream
 
 <<<<<<< Updated upstream
+=======
+boolean immediate;
+>>>>>>> Stashed changes
     @OneToOne
     User user;
     @OneToOne
