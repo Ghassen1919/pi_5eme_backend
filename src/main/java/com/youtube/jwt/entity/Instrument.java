@@ -23,7 +23,9 @@ public class Instrument {
     String symbole;
 
     Float quantite;
-
+    @Lob
+    @Column(columnDefinition = "MEDIUMBLOB")
+    String instrumentPhoto;
 @ManyToOne
     Portefeuille portefeuille;
 }

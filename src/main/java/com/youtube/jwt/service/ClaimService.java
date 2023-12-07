@@ -1,8 +1,6 @@
 package com.youtube.jwt.service;
 
 import com.youtube.jwt.dao.ClaimRepo;
-import com.youtube.jwt.dao.TransactionRepository;
-import com.youtube.jwt.dao.TransatioRepo;
 import com.youtube.jwt.dao.UserDao;
 import com.youtube.jwt.entity.Claim;
 
@@ -33,9 +31,9 @@ public class ClaimService implements IclaimService {
     private EmailService emailService;
     /*
     @Autowired
-
+    private TransactionRepo transactionRepo;
     */
-    private TransactionRepository transactionRepository;
+
     private ClaimRepo claimRepo;
 
     /*private EmailService emailService;
@@ -192,7 +190,7 @@ public class ClaimService implements IclaimService {
 
     }
 
-    public List<String> claimtran() {
+   /* public List<String> claimtran() {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
@@ -200,12 +198,12 @@ public class ClaimService implements IclaimService {
             String currentUserName = authentication.getName();
             System.out.println("Current User Name: " + currentUserName);
             User user = userDao.findByUserName(currentUserName);
-            List<Transaction> list1 = transactionRepository.findByBuyerOrSeller(currentUserName,currentUserName);
+            List<Transaction> list1 = transationRepo.findByUserc(user);
             List<String> transactionIds = list1.stream()
                     .map(Transaction::getRefTransaction) // Assuming getId() is the method to get the ID from a Transaction object
                     .collect(Collectors.toList());
             return transactionIds;
         }
 return null;
-    }
+    }*/
 }

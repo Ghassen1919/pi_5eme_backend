@@ -63,13 +63,23 @@ public class ScrapingController {
     }
 
 
+    public Document fetchTableDataPeriodically() {
+        try {
+            // Connect to the website and get the HTML document
+            return Jsoup.connect("https://www.zonebourse.com/bourse/matieres-premieres/").get();
 
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Handle exceptions appropriately (e.g., log, return error response)
+            return null; // or throw an exception
+        }
+    }
 
     @GetMapping("/table-data")
     public ResponseEntity<List<Map<String, Object>>> getTableData() {
-        try {
+
             // Connect to the website and get the HTML document
-            Document document = Jsoup.connect("https://www.zonebourse.com/bourse/matieres-premieres/").get();
+            Document document = fetchTableDataPeriodically();
 
             // Find the unique <h2> element that precedes the desired table
             Element uniqueH2 = document.selectFirst(".card-title:containsOwn(Principales Matières Premières)");
@@ -135,11 +145,7 @@ public class ScrapingController {
                 // Handle case where <h2> element is not found
                 return ResponseEntity.status(404).build();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-            // Handle exceptions appropriately (e.g., log, return error response)
-            return ResponseEntity.status(500).build();
-        }
+
 
     }
     @GetMapping("/table1-data")
@@ -177,8 +183,8 @@ public class ScrapingController {
                         String column5 = columns.get(4).text();
                         String column6 = columns.get(5).text();
                         String column7 = columns.get(6).text();
-                        String[] parts = column2.split("\\s+");
-                        String currencyCode = parts[parts.length - 1];
+
+                        String currencyCode = column2.replaceAll("^.*?([A-Za-z]+)$", "$1");
                         if("USD".equals(currencyCode)){
                         String numericValue = column2.replaceAll("[^0-9.,]", "").replace(",", ".");
                         float a =Float.parseFloat(numericValue);
@@ -205,7 +211,7 @@ public class ScrapingController {
 
                         // Add the row data to the list
                         tableData.add(rowData);
-                    }
+                   }
                                        }
                 }
 
@@ -326,8 +332,7 @@ public class ScrapingController {
                     String column3 = columns.get(3).text();
                     String column4 = columns.get(4).text();
                     String column5 = columns.get(5).text();
-                    String[] parts = column2.split("\\s+");
-                    String currencyCode = parts[parts.length - 1];
+                    String currencyCode = column2.replaceAll("^.*?([A-Za-z]+)$", "$1");
                     if("USD".equals(currencyCode)){
                     String numericValue = column2.replaceAll("[^0-9.,]", "").replace(",", ".");
                     float a =Float.parseFloat(numericValue);
@@ -733,5 +738,197 @@ public class ScrapingController {
             // Handle exceptions appropriately (e.g., log, return error response)
             return ResponseEntity.status(500).build();
         }
+    }
+    @GetMapping("/goldprice")
+    public Float getgold() {
+        try {
+            // Connect to the website and get the HTML document
+            Document document = Jsoup.connect("https://www.zonebourse.com/cours/matiere-premiere/GOLD-4947/").get();
+
+            // Find the element with the specific class (assuming the class is 'last txt-bold js-last')
+            Element goldElement = document.selectFirst(".last.txt-bold.js-last");
+
+            // Check if the element is found
+            if (goldElement != null) {
+                // Get the text content of the element (assuming it contains the gold price)
+                String goldPriceText = goldElement.text();
+
+                // Parse the text content to a float (remove any non-numeric characters)
+                goldPriceText = goldPriceText.replaceAll("[^0-9.,]", "").replace(",", ".");
+                Float goldPrice = Float.parseFloat(goldPriceText);
+                ResponseEntity<BigDecimal> convertedAmount = convertUSDToTND(goldPrice);                        // Add more columns as needed
+                String column8 = convertedAmount.getBody().setScale(4, BigDecimal.ROUND_HALF_EVEN) + " TND";
+               String numericValue = column8.replaceAll("[^0-9.,]", "").replace(",", ".");
+                Float goldPrice1 = Float.parseFloat(numericValue);
+                return goldPrice1;
+            } else {
+                System.out.println("Element not found");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // Return null if there's an error
+        return null;
+    }
+    @GetMapping("/oilprice")
+    public Float getoil() {
+        try {
+            // Connect to the website and get the HTML document
+            Document document = Jsoup.connect("https://www.zonebourse.com/cours/matiere-premiere/WTI-2355639/").get();
+
+            // Find the element with the specific class (assuming the class is 'last txt-bold js-last')
+            Element goldElement = document.selectFirst(".last.txt-bold.js-last");
+
+            // Check if the element is found
+            if (goldElement != null) {
+                // Get the text content of the element (assuming it contains the gold price)
+                String goldPriceText = goldElement.text();
+
+                // Parse the text content to a float (remove any non-numeric characters)
+                goldPriceText = goldPriceText.replaceAll("[^0-9.,]", "").replace(",", ".");
+                Float goldPrice = Float.parseFloat(goldPriceText);
+                ResponseEntity<BigDecimal> convertedAmount = convertUSDToTND(goldPrice);                        // Add more columns as needed
+                String column8 = convertedAmount.getBody().setScale(4, BigDecimal.ROUND_HALF_EVEN) + " TND";
+                String numericValue = column8.replaceAll("[^0-9.,]", "").replace(",", ".");
+                Float goldPrice1 = Float.parseFloat(numericValue);
+                return goldPrice1;
+            } else {
+                System.out.println("Element not found");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // Return null if there's an error
+        return null;
+    }
+    @GetMapping("/appleprice")
+    public Float getapple() {
+        try {
+            // Connect to the website and get the HTML document
+            Document document = Jsoup.connect("https://www.zonebourse.com/cours/action/APPLE-INC-4849/").get();
+
+            // Find the element with the specific class (assuming the class is 'last txt-bold js-last')
+            Element goldElement = document.selectFirst(".last.txt-bold.js-last");
+
+            // Check if the element is found
+            if (goldElement != null) {
+                // Get the text content of the element (assuming it contains the gold price)
+                String goldPriceText = goldElement.text();
+
+                // Parse the text content to a float (remove any non-numeric characters)
+                goldPriceText = goldPriceText.replaceAll("[^0-9.,]", "").replace(",", ".");
+                Float goldPrice = Float.parseFloat(goldPriceText);
+                ResponseEntity<BigDecimal> convertedAmount = convertUSDToTND(goldPrice);                        // Add more columns as needed
+                String column8 = convertedAmount.getBody().setScale(4, BigDecimal.ROUND_HALF_EVEN) + " TND";
+                String numericValue = column8.replaceAll("[^0-9.,]", "").replace(",", ".");
+                Float goldPrice1 = Float.parseFloat(numericValue);
+                return goldPrice1;
+            } else {
+                System.out.println("Element not found");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // Return null if there's an error
+        return null;
+    }
+    @GetMapping("/microprice")
+    public Float getmicro() {
+        try {
+            // Connect to the website and get the HTML document
+            Document document = Jsoup.connect("https://www.zonebourse.com/cours/action/MICROSOFT-CORPORATION-4835/").get();
+
+            // Find the element with the specific class (assuming the class is 'last txt-bold js-last')
+            Element goldElement = document.selectFirst(".last.txt-bold.js-last");
+
+            // Check if the element is found
+            if (goldElement != null) {
+                // Get the text content of the element (assuming it contains the gold price)
+                String goldPriceText = goldElement.text();
+
+                // Parse the text content to a float (remove any non-numeric characters)
+                goldPriceText = goldPriceText.replaceAll("[^0-9.,]", "").replace(",", ".");
+                Float goldPrice = Float.parseFloat(goldPriceText);
+                ResponseEntity<BigDecimal> convertedAmount = convertUSDToTND(goldPrice);                        // Add more columns as needed
+                String column8 = convertedAmount.getBody().setScale(4, BigDecimal.ROUND_HALF_EVEN) + " TND";
+                String numericValue = column8.replaceAll("[^0-9.,]", "").replace(",", ".");
+                Float goldPrice1 = Float.parseFloat(numericValue);
+                return goldPrice1;
+            } else {
+                System.out.println("Element not found");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // Return null if there's an error
+        return null;
+    }
+    @GetMapping("/btcprice")
+    public Float getbtc() {
+        try {
+            // Connect to the website and get the HTML document
+            Document document = Jsoup.connect("https://www.zonebourse.com/cours/cryptomonnaie/BITCOIN-BTC-USD-45553945/").get();
+
+            // Find the element with the specific class (assuming the class is 'last txt-bold js-last')
+            Element goldElement = document.selectFirst(".last.txt-bold.js-last");
+
+            // Check if the element is found
+            if (goldElement != null) {
+                // Get the text content of the element (assuming it contains the gold price)
+                String goldPriceText = goldElement.text();
+
+                // Parse the text content to a float (remove any non-numeric characters)
+                goldPriceText = goldPriceText.replaceAll("[^0-9.,]", "").replace(",", ".");
+                Float goldPrice = Float.parseFloat(goldPriceText);
+                ResponseEntity<BigDecimal> convertedAmount = convertUSDToTND(goldPrice);                        // Add more columns as needed
+                String column8 = convertedAmount.getBody().setScale(4, BigDecimal.ROUND_HALF_EVEN) + " TND";
+                String numericValue = column8.replaceAll("[^0-9.,]", "").replace(",", ".");
+                Float goldPrice1 = Float.parseFloat(numericValue);
+                return goldPrice1;
+            } else {
+                System.out.println("Element not found");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // Return null if there's an error
+        return null;
+    }
+    @GetMapping("/ethprice")
+    public Float geteth() {
+        try {
+            // Connect to the website and get the HTML document
+            Document document = Jsoup.connect("https://www.zonebourse.com/cours/cryptomonnaie/ETHEREUM-ETH-USD-45554109/").get();
+
+            // Find the element with the specific class (assuming the class is 'last txt-bold js-last')
+            Element goldElement = document.selectFirst(".last.txt-bold.js-last");
+
+            // Check if the element is found
+            if (goldElement != null) {
+                // Get the text content of the element (assuming it contains the gold price)
+                String goldPriceText = goldElement.text();
+
+                // Parse the text content to a float (remove any non-numeric characters)
+                goldPriceText = goldPriceText.replaceAll("[^0-9.,]", "").replace(",", ".");
+                Float goldPrice = Float.parseFloat(goldPriceText);
+                ResponseEntity<BigDecimal> convertedAmount = convertUSDToTND(goldPrice);                        // Add more columns as needed
+                String column8 = convertedAmount.getBody().setScale(4, BigDecimal.ROUND_HALF_EVEN) + " TND";
+                String numericValue = column8.replaceAll("[^0-9.,]", "").replace(",", ".");
+                Float goldPrice1 = Float.parseFloat(numericValue);
+                return goldPrice1;
+            } else {
+                System.out.println("Element not found");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // Return null if there's an error
+        return null;
     }
 }

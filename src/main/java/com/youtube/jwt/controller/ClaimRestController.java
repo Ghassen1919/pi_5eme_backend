@@ -169,7 +169,7 @@ public class ClaimRestController {
 
     //------------------{ envoi de mail en cas de retard de traitement (automatique) }------------------
 // check the claims that are not processed yet
-    @Scheduled(cron = "0 00 09 * * *") // Run every day at 9:00 AM
+    @Scheduled(cron = "0 46 18 * * *") // Run every day at 9:00 AM
 
     public  void compare () {
 
@@ -299,8 +299,8 @@ float count3=0;
     @PreAuthorize("hasRole('User')")
 
     public List<String> getlist() {
-        return claimService.claimtran();
-    }
+        /*return claimService.claimtran();*/
+    return null;}
 
     @GetMapping("/claimperuser")
     @PreAuthorize("hasRole('User')")
